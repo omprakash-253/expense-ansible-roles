@@ -16,14 +16,15 @@
     - cryptography
     executable: pip3.9 # pip3.11 if python version is 3.11
 
-- name: Check mysql  Connectivity
+# check password is already setup or not
+- name: check DB connection
   community.mysql.mysql_info:
     login_user: root
-    login_host: "{{ login_host }}"
     login_password: "{{ mysql_root_password }}"
+    login_host: "{{ login_host }}"
     filter: version
-    ignore_errors: yes
-    register: mysql_connectivity_output
+  ignore_errors: yes
+  register: mysql_connection_output
 
 - name: print mysql_connectivity_output
   ansible.builtin.debug:
