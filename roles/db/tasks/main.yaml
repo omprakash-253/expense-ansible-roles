@@ -1,20 +1,20 @@
-- name: install mysql server
+- name: Install MySQL Server
   ansible.builtin.dnf:
     name: mysql-server
     state: latest
 
-- name: start and enable mysql server
+- name: Start and Enable MySQL server
   ansible.builtin.service:
     name: mysqld
     state: started
-    enable: yes
+    enabled: yes
 
-- name: install python mysql server dependencies
+- name: install python mysql dependencies
   ansible.builtin.pip:
     name:
     - PyMySQL
     - cryptography
-    executable: pip3.9
+    executable: pip3.9 # pip3.11 if python version is 3.11
 
 # check password is already setup or not
 - name: check DB connection
