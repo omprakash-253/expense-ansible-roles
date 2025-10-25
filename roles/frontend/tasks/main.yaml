@@ -10,13 +10,13 @@
     enabled: yes
 
 - name: run app pre-requisites
-  ansibile.builtin.import_role:
+  aansible.builtin.import_role:
     name: common
     tasks_from: app-pre-req
 
 - name: copy backend conf
   ansible.builtin.template:
-    src: expense.conf.j2
+    src: expense.conf.j3
     dest: /etc/nginx/default.d/expense.conf
   notify:
   - restart nginx
