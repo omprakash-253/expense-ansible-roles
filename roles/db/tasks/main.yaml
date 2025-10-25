@@ -1,0 +1,34 @@
+- name: install mysql server
+  ansible.builtin.dnf:
+    name: mysql-server
+    state: latest
+
+- name: start and enable mysql server
+  ansible.builtin.servie:
+    name: mysqld
+    state: started
+    enable: yes
+
+- name: install python mysql server dependencies
+  ansible.builtin.pip:
+    name:
+    - PyMySQL
+    - cryptography
+    executable: pip3.9
+
+- name: check root has access to mysql server
+  community.mysql.mysql_info:
+    login_user: "{{ login_user }}"
+    login_password: "{{ mysql_root_password}}"
+    login_host: "{{ login_host}}"
+    filter: version
+  ignore_errors: yes
+  register: mysql_connection_output
+
+- name: print mysql_connection_output
+  ansible.builtin.debug:
+    msg: "Output: {{ mysql_connection_output }}"
+
+- name: setup root login_password
+  ansible.builtin.command: "mysql_secure_installation  --set-root-pass {{ mysql_root_password }}"
+  when: mysql_connection_output.failed is true  # in when condition don't supply variables under {{}}, insted directly enter the var name.

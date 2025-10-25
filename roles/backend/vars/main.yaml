@@ -1,0 +1,7 @@
+db_host: db.omansh.fun
+login_user: root
+login_host: db.omansh.fun
+login_password : ExpenseApp@1
+app_location: /app
+component: backend
+
