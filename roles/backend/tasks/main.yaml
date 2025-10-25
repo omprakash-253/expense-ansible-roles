@@ -16,22 +16,10 @@
   ansible.builtin.user:
     name: expense
 
-- name: delete app directory
-  ansible.builtin.file:
-    path: "{{ app_location }}"
-    state: absent
-  ignore_errors: yes
-
-- name: create app directory
-  ansible.builtin.file:
-    path: "{{ app_location }}"
-    state: directory
-
-- name: download and extract code
-  ansible.builtin.unarchive:
-    src: "https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{ component }}-v2.zip"
-    dest: "{{ app_location }}"
-    remote_src: yes
+- name: run app pre-requisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
 
 - name: install npm dependencies
   ansible.builtin.command: npm install
